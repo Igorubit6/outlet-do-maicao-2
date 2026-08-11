@@ -18,7 +18,7 @@ Site estático, sem build. É só HTML + CSS em um único arquivo.
 index.html            página inteira (HTML + CSS)
 assets/logo.png       logo circular usado na página
 assets/logo.jpg       logo original
-assets/icones/        selos 3D dos destaques
+assets/icones/        selos 3D da marca (guardados, fora do ar no momento)
 ```
 
 ## Deploy
