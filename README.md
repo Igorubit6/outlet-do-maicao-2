@@ -1,30 +1,23 @@
 # Outlet do Maicão — Loja 02
 
-Árvore de links (link in bio) da loja de sofás Outlet do Maicão — Loja 02.
+Site institucional estático para apresentar a loja e as linhas de sofás, com foco em visitas à loja e conversas pelo WhatsApp. Ele não exibe estoque ou preços de produtos.
 
-Site estático, sem build. É só HTML + CSS em um único arquivo.
+## Páginas
 
-## Links da página
+- `index.html`: apresentação da loja, comparação das linhas, processo, entrega, avaliações, localização e dúvidas.
+- `saldao.html`: peças rotativas com pequenos detalhes.
+- `comfort.html`: conforto e qualidade para o dia a dia.
+- `premium.html`: modelos de materiais e acabamento superiores.
 
-- WhatsApp — (19) 99652-4100, com mensagem pré-preenchida
-- Google Meu Negócio — endereço e como chegar
-- Instagram — [@outlet.domaicao_02](https://www.instagram.com/outlet.domaicao_02/)
-- Facebook — página da loja
-- Ligar agora — abre o discador no celular
+Todas as páginas usam `styles.css`, a logo em `assets/logo-nova.jpg` e imagens de sofás reimaginadas, identificadas como ilustrativas. `build_pages.py` contém o conteúdo compartilhado e gera as quatro páginas; execute `python3 build_pages.py` após alterar esse conteúdo. `build_preview.py` gera uma prévia autônoma na pasta `../revisao`.
 
-## Estrutura
+## Atualizações importantes
 
-```
-index.html            página inteira (HTML + CSS)
-assets/logo.png       logo circular usado na página
-assets/logo.jpg       logo original
-assets/icones/        selos 3D da marca (guardados, fora do ar no momento)
-```
+- Confirme disponibilidade, características, condições de entrega e formas de pagamento com a loja antes de alterar os textos.
+- A seção de avaliações contém trechos selecionados de comentários públicos do Google. A nota e a contagem foram conferidas em 29/09/2026; revise esses dados periodicamente.
+- As imagens geradas representam as linhas e não uma peça específica do estoque. Mantenha o aviso “Imagens meramente ilustrativas”.
+- O mapa incorporado e os botões de rota dependem do Google Maps e de conexão com a internet.
 
-## Deploy
+## Publicação
 
-Site estático servido da raiz — não precisa de configuração.
-Na Vercel: importar o repositório, framework **Other**, sem build command
-e output directory na raiz.
-
-Para rodar local, basta abrir o `index.html` no navegador.
+Site estático na raiz do repositório. Na Vercel, use framework **Other**, sem comando de build e com output na raiz. A implantação ligada à branch `main` deve atualizar após o push.
