@@ -21,3 +21,19 @@ Todas as páginas usam `styles.css`, a logo em `assets/logo-nova.jpg` e imagens 
 ## Publicação
 
 Site estático na raiz do repositório. Na Vercel, use framework **Other**, sem comando de build e com output na raiz. A implantação ligada à branch `main` deve atualizar após o push.
+
+## Meta Pixel e API de Conversões
+
+Pixel: `1832634061075614`. As quatro páginas carregam `assets/meta-tracking.js`: `PageView` na abertura e `Contact` no clique em links do WhatsApp. Clique não significa mensagem enviada ou compra. Cada evento usa o mesmo `event_id` no Pixel e na API para permitir deduplicação.
+
+`api/meta-events.js` é uma função Node da Vercel. O site não deve ser servido apenas como arquivos estáticos em outro provedor sem adaptar essa função.
+
+1. Gere um novo token da API de Conversões no Gerenciador de Eventos da Meta. Revogue/substitua o token compartilhado na conversa; excluir a conversa não o revoga.
+2. Na Vercel, abra o projeto > Settings > Environment Variables. Cadastre `META_CAPI_ACCESS_TOKEN` com o novo token para Production. Não coloque o token no repositório.
+3. Para validar, cadastre temporariamente `META_TEST_EVENT_CODE` com o código da aba Testar eventos da Meta. Faça um redeploy: variáveis novas só entram em uma nova implantação.
+4. Abra o site publicado pelo fluxo de teste da Meta e clique em WhatsApp. Confira `PageView` e `Contact`, eventos de navegador e servidor e deduplicação. O evento de servidor deve compartilhar o ID do evento de navegador. Bloqueadores de anúncios podem impedir o Pixel.
+5. Remova `META_TEST_EVENT_CODE`, faça outro redeploy e confira Diagnósticos. A API não está operacional enquanto faltar o token ou a Meta não aceitar os eventos.
+
+O servidor recebe IP e agente do navegador dos cabeçalhos da requisição, além de `_fbp`/`_fbc` quando disponíveis. URLs de eventos não incluem parâmetros de consulta. Não envia textos de mensagens, nomes, e-mails ou telefones de visitantes. `META_GRAPH_API_VERSION` é opcional (padrão `v23.0`).
+
+Verificação local: `node --test tests/meta-events.test.js`; regeneração: `python3 build_pages.py`. Não adicione outro snippet com `PageView` no mesmo site, para evitar contagem duplicada.
