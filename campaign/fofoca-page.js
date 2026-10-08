@@ -5,10 +5,10 @@ const CONFIG = {
   siteUrl: 'https://outlet-do-maicao-2.vercel.app',
   pixelId: '1832634061075614', // ID real fornecido; nenhum token é exposto.
   ga4Id: '', // TODO: preencher o ID de medição real, no formato G-XXXXXXXXXX.
-  logo: '/assets/logo-nova.jpg',
+  mysteryCover: '/assets/fofoca/mystery-cover.svg',
   whatsapp: '5519996524100',
   offer: 'Fale FOFOCA e ganhe um PUFF na compra do seu sofá. Vale na loja ou no WhatsApp.',
-  validity: 'Válido até __/__ ou enquanto durar o estoque', // TODO: definir a validade.
+  validity: 'Garanta seu puff até __/__/____.', // TODO: informar a data limite real da campanha.
   puffPhoto: '/assets/fofoca/puff-placeholder.svg', // TODO: substituir pela foto otimizada do puff real.
   startingPrice: 'R$ ___', // TODO: confirmar preço inicial à vista no Pix.
   address: 'Rua Oswaldo Oscar Barthelson, 1249 — Jardim Londres, Campinas - SP',
@@ -25,8 +25,8 @@ const CONFIG = {
       subheadline: 'Ele baixou o preço dos sofás e achou que ninguém ia perceber.',
       video: '/assets/fofoca/video-c1.mp4', // TODO: adicionar MP4 vertical 9:16, H.264, otimizado para 4G.
       videoReady: false, // TODO: mudar para true quando o vídeo existir.
-      poster: '/assets/linha-comfort.webp', // TODO: substituir pela capa vertical exclusiva da c1.
-      imageAlt: 'Sofá ilustrativo em uma sala clara e aconchegante',
+      poster: '/assets/fofoca/mystery-cover.jpg', // TODO: capa vertical exclusiva da c1, sem marca/revelação.
+      imageAlt: 'Uma fofoca esperando para ser revelada',
       buttons: [{ id: 'puff', label: 'Quero meu puff', message: 'Oi! Vi a FOFOCA do Michael e quero meu puff. (C1)' }]
     },
     c2: {
@@ -34,8 +34,8 @@ const CONFIG = {
       subheadline: 'Ela é macia, cabe na sala e ele não larga dela por nada.',
       video: '/assets/fofoca/video-c2.mp4', // TODO: adicionar MP4 vertical 9:16 otimizado.
       videoReady: false, // TODO: mudar para true quando o vídeo existir.
-      poster: '/assets/linha-saldao.webp', // TODO: substituir pela capa vertical exclusiva da c2.
-      imageAlt: 'Sofá ilustrativo com espaço para relaxar',
+      poster: '/assets/fofoca/mystery-cover.jpg', // TODO: capa vertical exclusiva da c2, sem marca/revelação.
+      imageAlt: 'Uma fofoca esperando para ser revelada',
       buttons: [{ id: 'outra', label: 'Quero conhecer a outra', message: 'Oi! Vim pela FOFOCA da outra e quero meu puff. (C2)' }]
     },
     c3: {
@@ -43,8 +43,8 @@ const CONFIG = {
       subheadline: 'O Michael trocou a Yasmin por outro sofá. Agora você decide quem fica.',
       video: '/assets/fofoca/video-c3.mp4', // TODO: adicionar MP4 vertical 9:16 otimizado.
       videoReady: false, // TODO: mudar para true quando o vídeo existir.
-      poster: '/assets/linha-premium-v2.webp', // TODO: substituir pela capa vertical exclusiva da c3.
-      imageAlt: 'Sofá premium ilustrativo em um ambiente acolhedor',
+      poster: '/assets/fofoca/mystery-cover.jpg', // TODO: capa vertical exclusiva da c3, sem marca/revelação.
+      imageAlt: 'Uma fofoca esperando para ser revelada',
       buttons: [
         { id: 'yasmin', label: 'Quero a Yasmin', message: 'Oi! Vim pela FOFOCA e quero a Yasmin + meu puff. (C3)' },
         { id: 'outro', label: 'Quero o outro', message: 'Oi! Vim pela FOFOCA e quero o outro sofá + meu puff. (C3)' }
@@ -65,7 +65,8 @@ const icons = {
   truck: '<path d="M2 5h12v12H2zM14 9h4l4 5v3h-8"/><circle cx="6" cy="18" r="2"/><circle cx="18" cy="18" r="2"/>',
   pin: '<path d="M20 10c0 6-8 12-8 12S4 16 4 10a8 8 0 1 1 16 0Z"/><circle cx="12" cy="10" r="3"/>',
   star: '<path d="m12 2 3 6 7 1-5 5 1 7-6-3-6 3 1-7-5-5 7-1Z"/>',
-  sound: '<path d="M11 4 6 8H2v8h4l5 4zM15 8a6 6 0 0 1 0 8m3-11a10 10 0 0 1 0 14"/>'
+  sound: '<path d="M11 4 6 8H2v8h4l5 4zM15 8a6 6 0 0 1 0 8m3-11a10 10 0 0 1 0 14"/>',
+  play: '<path d="m9 5 11 7-11 7Z"/>'
 };
 function icon(name) { return `<svg viewBox="0 0 24 24" aria-hidden="true" ${name === 'whatsapp' ? 'fill="currentColor"' : 'fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"'}>${icons[name]}</svg>`; }
 function whatsappButton(button, placement, secondary = false) {
@@ -86,21 +87,22 @@ function renderPage(input) {
   ];
   return `<!doctype html>
 <html lang="pt-BR"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="theme-color" content="#102c6b">
-<title>${escape(current.headline)} | FOFOCA · Outlet do Maicão</title><meta name="description" content="${escape(current.subheadline + ' ' + CONFIG.offer)}"><link rel="canonical" href="${canonical}"><link rel="icon" href="${CONFIG.logo}">
-<meta property="og:type" content="website"><meta property="og:locale" content="pt_BR"><meta property="og:site_name" content="Outlet do Maicão"><meta property="og:title" content="${escape(current.headline)}"><meta property="og:description" content="${escape(current.subheadline + ' ' + CONFIG.offer)}"><meta property="og:url" content="${canonical}"><meta property="og:image" content="${CONFIG.siteUrl}${current.poster}"><meta property="og:image:alt" content="${escape(current.imageAlt)}"><meta name="twitter:card" content="summary_large_image">
+<title>${escape(current.headline)} | FOFOCA</title><meta name="description" content="${escape(current.subheadline)}"><link rel="canonical" href="${canonical}"><link rel="icon" href="${CONFIG.mysteryCover}">
+<meta property="og:type" content="website"><meta property="og:locale" content="pt_BR"><meta property="og:site_name" content="FOFOCA"><meta property="og:title" content="${escape(current.headline)}"><meta property="og:description" content="${escape(current.subheadline)}"><meta property="og:url" content="${canonical}"><meta property="og:image" content="${CONFIG.siteUrl}${current.poster}"><meta property="og:image:alt" content="${escape(current.imageAlt)}"><meta name="twitter:card" content="summary_large_image">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Montserrat:wght@600;700;800;900&display=swap" rel="stylesheet"><link rel="preload" as="image" href="${escape(current.poster)}"><link rel="stylesheet" href="/assets/fofoca/fofoca.css">
 <script id="fofoca-config" type="application/json">${client}</script><script defer src="/assets/fofoca/fofoca.js"></script></head>
-<body data-version="${version}"><header class="campaign-header"><div class="brand"><img src="${CONFIG.logo}" alt="Outlet do Maicão Estofados" width="52" height="52"><span>OUTLET<small>DO MAICÃO</small></span></div><span class="store-label">CAMPINAS · LOJA 02</span></header>
-<main class="campaign"><section class="intro" aria-labelledby="headline"><p class="campaign-tag">A FOFOCA É BOA. O SOFÁ TAMBÉM.</p><h1 id="headline">${escape(current.headline)}</h1><p class="subheadline">${escape(current.subheadline)}</p></section>
-<section class="video-section" aria-label="Vídeo da campanha"><div class="video-frame"><video id="campaign-video" width="540" height="960" poster="${escape(current.poster)}" autoplay muted loop playsinline preload="none" aria-label="Vídeo da FOFOCA, versão ${version}"></video><div class="video-title" aria-hidden="true"><span>FOFOCA</span><small>DO OUTLET DO MAICÃO</small></div><button type="button" id="sound-toggle" class="sound-toggle" aria-controls="campaign-video" aria-pressed="false">${icon('sound')}<span>Toque para ouvir</span></button><p id="video-status" class="video-status" role="status">${current.videoReady ? '' : 'O vídeo dessa fofoca chega em breve.'}</p></div><p class="fine-print video-caption">${current.videoReady ? 'Toque para ouvir e descubra a fofoca.' : 'Capa provisória · imagem meramente ilustrativa.'}</p></section>
+<body data-version="${version}">
+<main class="campaign"><section class="intro" aria-labelledby="headline"><p class="campaign-tag">TEM COISA QUE VOCÊ PRECISA VER.</p><h1 id="headline">${escape(current.headline)}</h1><p class="subheadline">${escape(current.subheadline)}</p></section>
+<section class="video-section" aria-label="Vídeo da campanha"><div class="video-frame"><video id="campaign-video" width="540" height="960" poster="${escape(current.poster)}" muted loop playsinline preload="none" aria-label="Vídeo da FOFOCA, versão ${version}"></video><div class="video-title" aria-hidden="true"><span>FOFOCA</span><small>TOQUE. DESCUBRA. TIRE SUAS CONCLUSÕES.</small></div><button type="button" id="sound-toggle" class="sound-toggle" aria-controls="campaign-video reveal-content" aria-expanded="false" aria-pressed="false">${icon('play')}<span>Assistir à fofoca</span></button><p id="video-status" class="video-status" role="status">Toque para descobrir o que aconteceu.</p></div><p class="fine-print video-caption">A revelação começa quando você dá o play.</p><noscript><p class="fine-print">Ative o JavaScript do navegador para assistir e revelar a página.</p></noscript></section>
+<div id="reveal-content" hidden>
 <section class="offer" aria-label="Oferta da campanha"><div class="offer-copy"><span class="eyebrow">ESSA PARTE É PRA VOCÊ</span><h2>${escape(CONFIG.offer)}</h2><p>${escape(CONFIG.validity)}</p></div><img class="puff-photo" src="${CONFIG.puffPhoto}" alt="Espaço reservado para a foto do puff da oferta" width="180" height="180" loading="lazy" decoding="async"></section>
 <div class="cta-group" aria-label="Fale com a loja">${current.buttons.map((button, index) => whatsappButton(button, 'oferta', index > 0)).join('')}<p class="cta-note">É só chamar e falar <strong>FOFOCA</strong>.</p></div>
 ${comparison}
 <section class="proofs section" aria-labelledby="proof-title"><p class="eyebrow">CONFORTO COM MOTIVO PRA SORRIR</p><h2 id="proof-title">A fofoca passa.<br>Seu conforto fica.</h2><ul class="proof-list">${proofs.map(([name, title, note]) => `<li><span class="proof-icon">${icon(name)}</span><div><strong>${escape(title)}</strong><p>${escape(note)}</p></div></li>`).join('')}</ul></section>
-<section class="location section" aria-labelledby="location-title"><p class="eyebrow">VEM VER DE PERTO</p><h2 id="location-title">Seu próximo sofá<br>está aqui em Campinas.</h2><p class="address">${escape(CONFIG.address)}</p><p class="reference">${escape(CONFIG.reference)}</p><div class="map-frame"><iframe title="Google Maps: Outlet do Maicão, Jardim Londres, Campinas" src="${escape(CONFIG.mapsEmbed)}" width="700" height="330" loading="lazy" referrerpolicy="no-referrer-when-downgrade" allowfullscreen></iframe></div><a class="cta route-cta" data-location data-button="como_chegar" href="${escape(CONFIG.mapsRoute)}" target="_blank" rel="noopener">${icon('pin')}<span>Como chegar</span></a></section>
+<section class="location section" aria-labelledby="location-title"><p class="eyebrow">VEM VER DE PERTO</p><h2 id="location-title">Seu próximo sofá<br>está aqui em Campinas.</h2><p class="address">${escape(CONFIG.address)}</p><p class="reference">${escape(CONFIG.reference)}</p><div class="map-frame"><iframe title="Google Maps: loja no Jardim Londres, Campinas" data-src="${escape(CONFIG.mapsEmbed)}" width="700" height="330" loading="lazy" referrerpolicy="no-referrer-when-downgrade" allowfullscreen></iframe></div><a class="cta route-cta" data-location data-button="como_chegar" href="${escape(CONFIG.mapsRoute)}" target="_blank" rel="noopener">${icon('pin')}<span>Como chegar</span></a></section>
 <section class="closing section" aria-labelledby="closing-title"><p class="eyebrow">AGORA VOCÊ JÁ SABE</p><h2 id="closing-title">${escape(CONFIG.offer)}</h2><p class="validity">${escape(CONFIG.validity)}</p><div class="cta-group">${current.buttons.map((button, index) => whatsappButton(button, 'fecho', index > 0)).join('')}</div></section>
-</main><footer class="campaign-footer">Outlet do Maicão · Campinas · Imagens meramente ilustrativas.</footer>
+<footer class="campaign-footer">Campinas · Imagens meramente ilustrativas.</footer>
 <a class="floating-whatsapp" href="https://wa.me/${CONFIG.whatsapp}?text=${encodeURIComponent(current.buttons[0].message)}" data-whatsapp data-button="flutuante_${current.buttons[0].id}" data-label="${escape(current.buttons[0].label)}" target="_blank" rel="noopener" aria-label="${escape(current.buttons[0].label)} no WhatsApp">${icon('whatsapp')}</a>
-</body></html>`;
+</div></main></body></html>`;
 }
 module.exports = { CONFIG, renderPage };

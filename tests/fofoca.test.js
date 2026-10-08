@@ -17,6 +17,10 @@ test('all versions render independently with correct OG, WhatsApp and c3-only co
     assert.equal((html.match(/data-whatsapp /g) || []).length, current.buttons.length * 2 + 1);
     assert.ok(html.includes('loading="lazy"'));
     assert.ok(!html.includes('<nav') && !html.includes('index.html') && !html.includes('meta-tracking.js'));
+    assert.ok(!html.includes('logo-nova.jpg') && !html.includes('Outlet do Maicão') && !html.includes('autoplay'));
+    assert.ok(html.includes('id="reveal-content" hidden'));
+    assert.ok(html.includes('Garanta seu puff até __/__/____.'));
+    assert.ok(!html.includes('enquanto durar'));
   }
   assert.equal(renderPage(null), renderPage('c1'));
   assert.equal(renderPage('<script>alert(1)</script>'), renderPage('c1'));
@@ -38,16 +42,25 @@ function clientHarness() {
   const label = { textContent: '' }, status = { textContent: '' };
   const toggle = { addEventListener: (key, fn) => { toggleHandlers[key] = fn; }, querySelector: () => label, setAttribute() {} };
   const config = { version: 'c3', pixelId: CONFIG.pixelId, ga4Id: '', videoReady: false };
-  const document = { cookie: '', getElementById: id => ({ 'fofoca-config': { textContent: JSON.stringify(config) }, 'campaign-video': video, 'sound-toggle': toggle, 'video-status': status }[id]), addEventListener: (key, fn) => { handlers[key] = fn; } };
+  const revealContent = { hidden: true }, frame = { dataset: { src: 'https://maps.example' } };
+  const document = { cookie: '', body: { classList: { add() {} } }, querySelectorAll: () => [frame], getElementById: id => ({ 'reveal-content': revealContent, 'fofoca-config': { textContent: JSON.stringify(config) }, 'campaign-video': video, 'sound-toggle': toggle, 'video-status': status }[id]), addEventListener: (key, fn) => { handlers[key] = fn; } };
   const window = { fbq: (...args) => pixels.push(args), gtag: (...args) => ga.push(args), crypto: { randomUUID: () => 'id-' + requests.length } };
   const context = { window, document, location: { protocol: 'https:', origin: 'https://outlet.example', pathname: '/fofoca', search: '?v=c3&utm_source=cartaz&utm_medium=qrcode&utm_campaign=fofoca&utm_content=fachada&utm_term=teste&debug=0' }, URLSearchParams, fetch: (url, options) => { requests.push(JSON.parse(options.body)); return Promise.resolve({ status: 200 }); }, console };
   vm.runInNewContext(fs.readFileSync(require.resolve('../assets/fofoca/fofoca.js'), 'utf8'), context);
-  return { pixels, requests, ga, handlers, video, videoHandlers, toggleHandlers, status };
+  return { pixels, requests, ga, handlers, video, videoHandlers, toggleHandlers, status, revealContent, frame };
 }
 test('real actions carry UTMs, button and shared IDs; sound tracking requires audible playback', () => {
   const h = clientHarness();
   assert.equal(h.requests.length, 1);
+  assert.equal(h.revealContent.hidden, true);
+  assert.equal(h.frame.src, undefined);
+  h.handlers.click({ target: { closest: () => ({ dataset: { button: 'oferta_yasmin' }, hasAttribute: () => true }) } });
+  assert.equal(h.requests.length, 1); // O CTA não registra clique enquanto estiver bloqueado.
+  h.videoHandlers.playing();
+  assert.equal(h.revealContent.hidden, true); // Reprodução sozinha não revela a página.
   h.toggleHandlers.click(); // Placeholder: no ViewContent.
+  assert.equal(h.revealContent.hidden, false);
+  assert.equal(h.frame.src, 'https://maps.example');
   assert.equal(h.requests.length, 1);
   h.video.paused = false; h.video.readyState = 3;
   h.videoHandlers.playing(); // Muted autoplay: no ViewContent.

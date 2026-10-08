@@ -56,3 +56,9 @@ Eventos Meta e API: `PageView` na abertura; `ViewContent` uma vez ao realmente r
 GA4: `como_chegar` no botão de rota, com versão, botão e UTMs. Para DebugView, adicione `&debug=1` no link; isso também mostra no console apenas nome do evento, atribuição, ID do evento e status da API, sem credenciais. Configure dimensões personalizadas no GA4 para consultar `version`/`button` nos relatórios. O código de teste da Meta continua sendo a variável server-only `META_TEST_EVENT_CODE`.
 
 Validar: `node --test tests/*.test.js`. Preços no Pix; todas as parcelas no cartão têm acréscimos. Mapa carrega de forma lazy; a página não tem menu nem links para outras páginas.
+
+### Fluxo de revelação
+
+A entrada das três versões mostra apenas chamada e capa misteriosa, sem marca/logotipo (inclusive favicon), oferta ou contatos. O toque em **Assistir à fofoca** revela de uma vez oferta, WhatsApp, comparação c3, benefícios, mapa, fecho e botão flutuante. Não há revelação por tempo, scroll ou autoplay. O mapa só recebe sua URL depois do toque. O conteúdo oculto usa `hidden`, inclusive para teclado e leitores de tela.
+
+O vídeo começa com som pelo gesto da pessoa, quando estiver disponível. Enquanto os MP4s forem placeholders, o toque permite revisar a revelação e informa que o vídeo está em preparação; não dispara `ViewContent`. A data limite permanece TODO (`__/__/____`) até a confirmação. O texto não usa mais a condição de estoque.

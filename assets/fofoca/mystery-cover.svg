@@ -1,0 +1,7 @@
+<!-- TODO: substituir pelas capas exclusivas, sem identificar a loja antes do play. -->
+<svg xmlns="http://www.w3.org/2000/svg" width="540" height="960" viewBox="0 0 540 960">
+  <defs><linearGradient id="bg" x2="1" y2="1"><stop stop-color="#203d79"/><stop offset="1" stop-color="#102c6b"/></linearGradient><radialGradient id="glow"><stop stop-color="#b1c4eb" stop-opacity=".25"/><stop offset="1" stop-color="#b1c4eb" stop-opacity="0"/></radialGradient></defs>
+  <path fill="url(#bg)" d="M0 0h540v960H0z"/><circle cx="270" cy="430" r="270" fill="url(#glow)"/>
+  <circle cx="270" cy="430" r="130" fill="none" stroke="#adc0e8" stroke-opacity=".18"/><circle cx="270" cy="430" r="180" fill="none" stroke="#adc0e8" stroke-opacity=".1"/>
+  <text x="270" y="495" text-anchor="middle" font-family="Arial,sans-serif" font-size="220" font-weight="700" fill="#efc54b">?</text>
+</svg>

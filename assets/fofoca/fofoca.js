@@ -10,6 +10,16 @@
     if (/^utm_[a-zA-Z0-9_]{1,40}$/.test(key)) attribution[key] = value.slice(0, 200);
   }
   const debug = search.get('debug') === '1';
+  let revealed = false;
+  function reveal() {
+    if (revealed) return;
+    revealed = true;
+    document.getElementById('reveal-content').hidden = false;
+    document.body.classList.add('revealed');
+    document.getElementById('sound-toggle').setAttribute('aria-expanded', 'true');
+    // Não há download do mapa nem conteúdo comercial visível antes do play.
+    document.querySelectorAll('iframe[data-src]').forEach(frame => { frame.src = frame.dataset.src; });
+  }
   function cookie(name) {
     const entry = document.cookie.split('; ').find(value => value.startsWith(name + '='));
     return entry ? entry.slice(name.length + 1) : undefined;
@@ -48,6 +58,7 @@
   }
   track('PageView');
   document.addEventListener('click', function (event) {
+    if (!revealed) return;
     const target = event.target.closest && event.target.closest('a[data-whatsapp], a[data-location]');
     if (!target) return;
     const extra = { button: target.dataset.button, button_label: target.dataset.label || 'Como chegar' };
@@ -81,19 +92,18 @@
     label.textContent = 'Vídeo em breve';
   });
   toggle.addEventListener('click', function () {
+    reveal(); // A revelação depende do toque; não do autoplay nem de um temporizador.
     if (!config.videoReady) {
-      status.textContent = 'Estamos preparando o vídeo. Garanta seu puff pelo WhatsApp abaixo.';
+      status.textContent = 'Vídeo em preparação. A revelação já está disponível abaixo.';
+      label.textContent = 'Vídeo em breve';
       return;
     }
+    if (!video.src) video.src = config.video;
     video.muted = !video.muted;
     video.controls = true;
     if (video.paused) {
       video.play().then(checkSound).catch(() => { status.textContent = 'Toque no play do vídeo para começar.'; });
     }
   });
-  if (config.videoReady) {
-    video.src = config.video;
-    video.muted = true;
-    video.play().catch(() => { status.textContent = 'Toque para reproduzir e ouvir.'; });
-  }
+  // Vídeo sem autoplay: só começa depois de a pessoa escolher assistir.
 })();
