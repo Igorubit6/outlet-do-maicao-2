@@ -19,6 +19,10 @@ test('all versions render independently with correct OG, WhatsApp and c3-only co
     assert.ok(!html.includes('<nav') && !html.includes('index.html') && !html.includes('meta-tracking.js'));
     assert.ok(!html.includes('logo-nova.jpg') && !html.includes('Outlet do Maicão') && !html.includes('autoplay'));
     assert.ok(html.includes('id="reveal-content" hidden'));
+    const [teaser, revealed] = html.split('<div id="reveal-content" hidden>');
+    assert.ok(!teaser.includes(current.subheadline), 'Teaser e metadados não revelam a frase');
+    assert.ok(revealed.includes(current.subheadline), 'A frase fica dentro do conteúdo oculto');
+    assert.ok(html.includes(`<meta property="og:description" content="${CONFIG.teaserDescription}">`));
     assert.ok(html.includes('Garanta seu puff até __/__/____.'));
     assert.ok(!html.includes('enquanto durar'));
   }

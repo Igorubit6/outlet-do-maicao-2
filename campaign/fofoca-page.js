@@ -5,6 +5,7 @@ const CONFIG = {
   siteUrl: 'https://outlet-do-maicao-2.vercel.app',
   pixelId: '1832634061075614', // ID real fornecido; nenhum token é exposto.
   ga4Id: '', // TODO: preencher o ID de medição real, no formato G-XXXXXXXXXX.
+  teaserDescription: 'Assista ao vídeo e descubra a fofoca.',
   mysteryCover: '/assets/fofoca/mystery-cover.svg',
   whatsapp: '5519996524100',
   offer: 'Fale FOFOCA e ganhe um PUFF na compra do seu sofá. Vale na loja ou no WhatsApp.',
@@ -87,14 +88,15 @@ function renderPage(input) {
   ];
   return `<!doctype html>
 <html lang="pt-BR"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="theme-color" content="#102c6b">
-<title>${escape(current.headline)} | FOFOCA</title><meta name="description" content="${escape(current.subheadline)}"><link rel="canonical" href="${canonical}"><link rel="icon" href="${CONFIG.mysteryCover}">
-<meta property="og:type" content="website"><meta property="og:locale" content="pt_BR"><meta property="og:site_name" content="FOFOCA"><meta property="og:title" content="${escape(current.headline)}"><meta property="og:description" content="${escape(current.subheadline)}"><meta property="og:url" content="${canonical}"><meta property="og:image" content="${CONFIG.siteUrl}${current.poster}"><meta property="og:image:alt" content="${escape(current.imageAlt)}"><meta name="twitter:card" content="summary_large_image">
+<title>${escape(current.headline)} | FOFOCA</title><meta name="description" content="${escape(CONFIG.teaserDescription)}"><link rel="canonical" href="${canonical}"><link rel="icon" href="${CONFIG.mysteryCover}">
+<meta property="og:type" content="website"><meta property="og:locale" content="pt_BR"><meta property="og:site_name" content="FOFOCA"><meta property="og:title" content="${escape(current.headline)}"><meta property="og:description" content="${escape(CONFIG.teaserDescription)}"><meta property="og:url" content="${canonical}"><meta property="og:image" content="${CONFIG.siteUrl}${current.poster}"><meta property="og:image:alt" content="${escape(current.imageAlt)}"><meta name="twitter:card" content="summary_large_image">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Montserrat:wght@600;700;800;900&display=swap" rel="stylesheet"><link rel="preload" as="image" href="${escape(current.poster)}"><link rel="stylesheet" href="/assets/fofoca/fofoca.css">
 <script id="fofoca-config" type="application/json">${client}</script><script defer src="/assets/fofoca/fofoca.js"></script></head>
 <body data-version="${version}">
-<main class="campaign"><section class="intro" aria-labelledby="headline"><p class="campaign-tag">TEM COISA QUE VOCÊ PRECISA VER.</p><h1 id="headline">${escape(current.headline)}</h1><p class="subheadline">${escape(current.subheadline)}</p></section>
+<main class="campaign"><section class="intro" aria-labelledby="headline"><p class="campaign-tag">TEM COISA QUE VOCÊ PRECISA VER.</p><h1 id="headline">${escape(current.headline)}</h1></section>
 <section class="video-section" aria-label="Vídeo da campanha"><div class="video-frame"><video id="campaign-video" width="540" height="960" poster="${escape(current.poster)}" muted loop playsinline preload="none" aria-label="Vídeo da FOFOCA, versão ${version}"></video><div class="video-title" aria-hidden="true"><span>FOFOCA</span><small>TOQUE. DESCUBRA. TIRE SUAS CONCLUSÕES.</small></div><button type="button" id="sound-toggle" class="sound-toggle" aria-controls="campaign-video reveal-content" aria-expanded="false" aria-pressed="false">${icon('play')}<span>Assistir à fofoca</span></button><p id="video-status" class="video-status" role="status">Toque para descobrir o que aconteceu.</p></div><p class="fine-print video-caption">A revelação começa quando você dá o play.</p><noscript><p class="fine-print">Ative o JavaScript do navegador para assistir e revelar a página.</p></noscript></section>
 <div id="reveal-content" hidden>
+<p class="subheadline reveal-subheadline">${escape(current.subheadline)}</p>
 <section class="offer" aria-label="Oferta da campanha"><div class="offer-copy"><span class="eyebrow">ESSA PARTE É PRA VOCÊ</span><h2>${escape(CONFIG.offer)}</h2><p>${escape(CONFIG.validity)}</p></div><img class="puff-photo" src="${CONFIG.puffPhoto}" alt="Espaço reservado para a foto do puff da oferta" width="180" height="180" loading="lazy" decoding="async"></section>
 <div class="cta-group" aria-label="Fale com a loja">${current.buttons.map((button, index) => whatsappButton(button, 'oferta', index > 0)).join('')}<p class="cta-note">É só chamar e falar <strong>FOFOCA</strong>.</p></div>
 ${comparison}

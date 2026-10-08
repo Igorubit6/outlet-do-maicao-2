@@ -16,3 +16,5 @@
 body:not(.revealed){min-height:100svh;background:linear-gradient(180deg,#fff,#f2f6fc)}
 .intro{padding-top:44px}.video-section{padding-bottom:32px}.video-title small{font-size:8px;letter-spacing:.09em}
 #reveal-content{padding-top:12px}.revealed .video-caption{color:var(--navy)}
+
+.reveal-subheadline{text-align:center;margin:0 auto 24px}
