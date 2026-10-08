@@ -1,0 +1,6 @@
+{
+  "rewrites": [
+    { "source": "/fofoca", "destination": "/api/fofoca" },
+    { "source": "/fofoca/", "destination": "/api/fofoca" }
+  ]
+}

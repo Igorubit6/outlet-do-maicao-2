@@ -19,7 +19,7 @@ module.exports = async function handler(req, res) {
     body = typeof req.body === 'string' ? JSON.parse(req.body) : req.body;
     if (!body || Buffer.byteLength(JSON.stringify(body)) > 4096) throw Error();
   } catch (_) { return respond(400, { error: 'invalid_body' }); }
-  if (!['PageView', 'Contact'].includes(body.event_name) || typeof body.event_id !== 'string' || !/^[A-Za-z0-9_-]{1,128}$/.test(body.event_id)) return respond(400, { error: 'invalid_event' });
+  if (!['PageView', 'Contact', 'ViewContent', 'Lead', 'FindLocation'].includes(body.event_name) || typeof body.event_id !== 'string' || !/^[A-Za-z0-9_-]{1,128}$/.test(body.event_id)) return respond(400, { error: 'invalid_event' });
   let source;
   try { source = new URL(body.event_source_url); } catch (_) { return respond(400, { error: 'invalid_source' }); }
   if (source.origin !== origin.origin) return respond(400, { error: 'invalid_source' });
@@ -35,6 +35,16 @@ module.exports = async function handler(req, res) {
   }
   const event = { event_name: body.event_name, event_id: body.event_id, event_time: Math.floor(Date.now() / 1000), action_source: 'website', event_source_url: source.origin + source.pathname, user_data: userData };
   if (body.event_name === 'Contact') event.custom_data = { content_name: 'WhatsApp' };
+  // Campanha: somente atribuição e nomes de controles, nunca dados livres de visitantes.
+  const custom = body.custom_data;
+  if (custom && typeof custom === 'object' && !Array.isArray(custom)) {
+    const data = event.custom_data || {};
+    if (['c1', 'c2', 'c3'].includes(custom.version)) data.version = custom.version;
+    for (const [key, value] of Object.entries(custom)) {
+      if ((/^utm_[a-zA-Z0-9_]{1,40}$/.test(key) || ['button', 'button_label', 'content_name', 'content_type'].includes(key)) && typeof value === 'string') data[key] = value.slice(0, 200);
+    }
+    if (Object.keys(data).length) event.custom_data = data;
+  }
   const payload = { data: [event] };
   if (process.env.META_TEST_EVENT_CODE) payload.test_event_code = process.env.META_TEST_EVENT_CODE;
   const version = process.env.META_GRAPH_API_VERSION || 'v23.0';

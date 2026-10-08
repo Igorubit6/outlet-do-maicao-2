@@ -1,0 +1,8 @@
+<!-- TODO: substituir esta ilustração pela foto WebP do puff real. -->
+<svg xmlns="http://www.w3.org/2000/svg" width="240" height="240" viewBox="0 0 240 240">
+  <ellipse cx="120" cy="197" rx="82" ry="11" fill="#102c6b" opacity=".1"/>
+  <path d="M46 94Q120 63 194 94V173Q120 211 46 173Z" fill="#f2eee6" stroke="#c9bea3" stroke-width="2"/>
+  <ellipse cx="120" cy="94" rx="74" ry="26" fill="#fffdf7" stroke="#c9bea3" stroke-width="2"/>
+  <path d="M54 116Q120 143 186 116M61 132V175M179 132V175" fill="none" stroke="#d6ccb6" stroke-width="2"/>
+  <text x="120" y="229" text-anchor="middle" font-family="Arial,sans-serif" font-size="12" fill="#102c6b">FOTO DO PUFF EM BREVE</text>
+</svg>
