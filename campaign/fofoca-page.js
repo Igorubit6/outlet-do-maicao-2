@@ -22,13 +22,13 @@ const CONFIG = {
   googleReviews: '190 avaliações', // TODO: atualizar a contagem do Google antes da campanha.
   versions: {
     c1: {
-      headline: 'Sim, o Michael fez isso.',
+      headline: 'Sim, o Maicão fez isso.',
       subheadline: 'Ele baixou o preço dos sofás e achou que ninguém ia perceber.',
       video: '/assets/fofoca/video-c1.mp4', // TODO: adicionar MP4 vertical 9:16, H.264, otimizado para 4G.
       videoReady: false, // TODO: mudar para true quando o vídeo existir.
       poster: '/assets/fofoca/mystery-cover.jpg', // TODO: capa vertical exclusiva da c1, sem marca/revelação.
       imageAlt: 'Uma fofoca esperando para ser revelada',
-      buttons: [{ id: 'puff', label: 'Quero meu puff', message: 'Oi! Vi a FOFOCA do Michael e quero meu puff. (C1)' }]
+      buttons: [{ id: 'puff', label: 'Quero meu puff', message: 'Oi! Vi a FOFOCA do Maicão e quero meu puff. (C1)' }]
     },
     c2: {
       headline: 'Pronto. Descobri quem é a outra.',
@@ -41,7 +41,7 @@ const CONFIG = {
     },
     c3: {
       headline: 'A Yasmin descobriu tudo.',
-      subheadline: 'O Michael trocou a Yasmin por outro sofá. Agora você decide quem fica.',
+      subheadline: 'O Maicão trocou a Yasmin por outro sofá. Agora você decide quem fica.',
       video: '/assets/fofoca/video-c3.mp4', // TODO: adicionar MP4 vertical 9:16 otimizado.
       videoReady: false, // TODO: mudar para true quando o vídeo existir.
       poster: '/assets/fofoca/mystery-cover.jpg', // TODO: capa vertical exclusiva da c3, sem marca/revelação.
