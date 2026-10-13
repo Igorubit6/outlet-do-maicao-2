@@ -47,3 +47,11 @@ Meta: PageView, ViewContent (revelação), Lead (WhatsApp), FindLocation. Browse
 ## Verificação
 
 `node --test tests/*.test.js`
+
+## Revisão visual compacta (13/10)
+
+Raspadinha no topo, loja/condições recolhidas após a revelação. Comemoração dispara apenas na revelação interativa: fanfarra sintetizada pela Web Audio API, desbloqueada pelo primeiro gesto; confetes por 3,4 segundos, sem interceptar cliques, respeitando movimento reduzido. Som com botão de silenciar. Reabrir página ou trocar prêmio não reinicia festa. Na prévia há “Testar comemoração” para conferir efeito sem novo sorteio.
+
+Arte puff criada com image_gen: produto bege isolado, fundo claro, luz suave, sem texto (prompt: one small ivory upholstered square ottoman, photorealistic, seamless pale warm white studio background, 3:2, no logos/text). Asset WebP 720px. Sofá usa `linha-premium-v2.webp` já existente com faixa HTML/CSS vermelha de 10%. Imagens meramente ilustrativas.
+
+Bancada de revisão sem indexação: `/api/raspadinha-preview?device=mobile&v=c1`, `device=tablet` (768px), `device=desktop` (1280px). Rota indisponível quando campanha estiver ativa. Serve apenas para conferir dimensões em navegador, não substitui teste em aparelho físico.

@@ -71,6 +71,7 @@
   }
   async function reveal() {
     if (!ready || busy || coupon?.revealedAt) return;
+    window.MaicaoCelebration?.arm();
     busy = true; $('reveal-button').disabled = true; $('loading-cover').hidden = false;
     start();
     try {
@@ -80,12 +81,21 @@
       } else { coupon = (await request('reveal')).coupon; }
       track('raspadinha_revelada', {}, 'ViewContent');
       showResult(true);
+      window.MaicaoCelebration?.play();
     } catch { $('game-status').textContent = 'Não foi possível revelar agora. Toque abaixo para tentar novamente.'; $('reveal-button').disabled = false; }
     finally { $('loading-cover').hidden = true; busy = false; }
   }
   function showResult(focus = false) {
     $('ticket').hidden = true; $('reveal-button').hidden = true; $('game-status').hidden = true;
     $('result').hidden = false;
+    document.body.classList.add('has-prize');
+    $('purchase-hint').hidden = true;
+    $('after-prize').hidden = false;
+    if ($('replay-celebration')) $('replay-celebration').hidden = false;
+    $('prize-art').dataset.prize = coupon.prize;
+    $('prize-image').src = coupon.prize === 'puff' ? '/assets/raspadinha/premio-puff.webp' : '/assets/linha-premium-v2.webp';
+    $('prize-image').alt = coupon.prize === 'puff' ? 'Puff bege ilustrativo do benefício' : 'Sofá ilustrativo com benefício de 10% de desconto';
+    $('discount-ribbon').hidden = coupon.prize !== 'desconto';
     $('prize-title').textContent = prizeText();
     $('coupon-code').textContent = coupon.code;
     $('coupon-date').textContent = date(coupon.expiresAt);
@@ -101,7 +111,7 @@
     for (const id of ['whatsapp','floating-whatsapp']) $(id).href = 'https://wa.me/' + config.whatsapp + '?text=' + encodeURIComponent(message);
     $('whatsapp').querySelector('span').textContent = expired() ? 'Consultar ofertas no WhatsApp' : 'Garantir meu prêmio no WhatsApp';
     $('floating-whatsapp').hidden = false;
-    if (focus) { $('prize-title').tabIndex = -1; $('prize-title').focus({ preventScroll: true }); }
+    if (focus) { $('result').scrollIntoView({ block: 'start', behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' }); $('prize-title').tabIndex = -1; $('prize-title').focus({ preventScroll: true }); }
   }
   $('swap-prize').addEventListener('click', async () => {
     if (busy || !coupon || expired() || coupon.swapped) return;
@@ -155,7 +165,7 @@
     $('game-status').textContent = ratio < .4 ? 'Continue raspando… sua surpresa está quase aparecendo.' : 'Pronto! Vamos revelar seu benefício.';
     if (ratio >= .4) reveal();
   }
-  canvas.addEventListener('pointerdown', e => { if (!ready || busy || activePointer !== null) return; activePointer = e.pointerId; last = null; canvas.setPointerCapture(e.pointerId); start(); scratch(e); });
+  canvas.addEventListener('pointerdown', e => { if (!ready || busy || activePointer !== null) return; window.MaicaoCelebration?.arm(); activePointer = e.pointerId; last = null; canvas.setPointerCapture(e.pointerId); start(); scratch(e); });
   canvas.addEventListener('pointermove', e => { if (activePointer === e.pointerId) scratch(e); });
   for (const name of ['pointerup', 'pointercancel', 'lostpointercapture']) canvas.addEventListener(name, e => { if (activePointer === e.pointerId) { activePointer = null; last = null; checkProgress(); } });
   new ResizeObserver(drawCover).observe($('scratch-area'));
@@ -166,6 +176,7 @@
   }
   $('whatsapp').addEventListener('click', () => clickWhatsApp('principal'));
   $('floating-whatsapp').addEventListener('click', () => clickWhatsApp('flutuante'));
+  $('store-details').addEventListener('toggle', () => { if ($('store-details').open) { const map = $('store-details').querySelector('iframe[data-src]'); if (map) { map.src = map.dataset.src; delete map.dataset.src; } } });
   $('directions').addEventListener('click', () => track('como_chegar', { button: 'como_chegar' }, 'FindLocation'));
   $('save-coupon').addEventListener('click', async () => {
     if (!coupon) return;
