@@ -39,9 +39,9 @@ module.exports = async function handler(req, res) {
   const custom = body.custom_data;
   if (custom && typeof custom === 'object' && !Array.isArray(custom)) {
     const data = event.custom_data || {};
-    if (['c1', 'c2', 'c3'].includes(custom.version)) data.version = custom.version;
+    if (['c1', 'c2', 'c3', 'c4', 'c5'].includes(custom.version)) data.version = custom.version;
     for (const [key, value] of Object.entries(custom)) {
-      if ((/^utm_[a-zA-Z0-9_]{1,40}$/.test(key) || ['button', 'button_label', 'content_name', 'content_type'].includes(key)) && typeof value === 'string') data[key] = value.slice(0, 200);
+      if ((/^utm_[a-zA-Z0-9_]{1,40}$/.test(key) || ['button', 'button_label', 'content_name', 'content_type', 'page_version', 'placement', 'campaign_id', 'prize'].includes(key)) && typeof value === 'string') data[key] = value.slice(0, 200);
     }
     if (Object.keys(data).length) event.custom_data = data;
   }

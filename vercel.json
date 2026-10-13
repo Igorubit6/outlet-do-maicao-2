@@ -1,6 +1,24 @@
 {
   "rewrites": [
-    { "source": "/fofoca", "destination": "/api/fofoca" },
-    { "source": "/fofoca/", "destination": "/api/fofoca" }
+    {
+      "source": "/raspadinha",
+      "destination": "/api/raspadinha"
+    },
+    {
+      "source": "/raspadinha/",
+      "destination": "/api/raspadinha"
+    }
+  ],
+  "redirects": [
+    {
+      "source": "/fofoca",
+      "destination": "/raspadinha",
+      "permanent": false
+    },
+    {
+      "source": "/fofoca/",
+      "destination": "/raspadinha",
+      "permanent": false
+    }
   ]
 }

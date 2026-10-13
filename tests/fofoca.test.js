@@ -29,16 +29,15 @@ test('all versions render independently with correct OG, WhatsApp and c3-only co
   assert.equal(renderPage(null), renderPage('c1'));
   assert.equal(renderPage('<script>alert(1)</script>'), renderPage('c1'));
 });
-test('route selects version in initial HTML, supports HEAD and preserves static site routes', () => {
+test('retired video campaign redirects preserving version and attribution', () => {
   const response = () => ({ headers: {}, setHeader(k,v) { this.headers[k]=v; }, status(n) { this.code=n; return this; }, end(html) { this.html=html; } });
   const res = response();
   route({ method: 'GET', url: '/api/fofoca?v=c2&utm_source=cartaz' }, res);
-  assert.equal(res.code, 200);
-  assert.ok(res.html.includes(CONFIG.versions.c2.headline));
-  assert.equal(res.headers['Content-Type'], 'text/html; charset=utf-8');
-  const head = response(); route({ method: 'HEAD', url: '/fofoca' }, head); assert.equal(head.html, '');
+  assert.equal(res.code, 307);
+  assert.equal(res.headers.Location, '/raspadinha?v=c2&utm_source=cartaz');
   const config = JSON.parse(fs.readFileSync(require.resolve('../vercel.json')));
-  assert.ok(config.rewrites.every(rule => ['/fofoca', '/fofoca/'].includes(rule.source)));
+  assert.ok(config.rewrites.some(rule => rule.source === '/raspadinha'));
+  assert.ok(config.redirects.some(rule => rule.source === '/fofoca'));
 });
 function clientHarness() {
   const pixels = [], requests = [], ga = [], handlers = {}, videoHandlers = {}, toggleHandlers = {};
