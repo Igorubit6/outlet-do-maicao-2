@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://outlet-do-maicao-2.vercel.app/sitemap.xml
